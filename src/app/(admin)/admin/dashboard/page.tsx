@@ -200,7 +200,7 @@ export default function AdminDashboard() {
                     tickFormatter={(value) => `${(value / 10000000).toFixed(0)}Cr`}
                   />
                   <Tooltip 
-                    formatter={(value: number) => [`৳${(value / 10000000).toFixed(2)}Cr`, '']}
+                    formatter={(value) => [`৳${(Number(value) / 10000000).toFixed(2)}Cr`, '']}
                   />
                   <Bar dataKey="target" fill="#e5e7eb" name="Target" radius={[4, 4, 0, 0]} />
                   <Bar dataKey="collected" fill="#10b981" name="Collected" radius={[4, 4, 0, 0]} />
