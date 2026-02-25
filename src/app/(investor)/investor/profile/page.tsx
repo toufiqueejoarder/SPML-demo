@@ -197,7 +197,11 @@ export default function ProfilePage() {
                       Recent Photo
                     </li>
                   </ul>
-                  <Button variant="outline" className="w-full">
+<Button 
+                    variant="outline" 
+                    className="w-full"
+                    onClick={() => toast.info('Demo Mode', { description: 'Document upload would open file picker in production' })}
+                  >
                     <Upload className="w-4 h-4 mr-2" />
                     Upload Documents
                   </Button>

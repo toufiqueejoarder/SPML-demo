@@ -6,6 +6,8 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Input } from '@/components/ui/input';
 import { useDemoState } from '@/contexts/DemoStateContext';
+import { toast } from 'sonner';
+import Link from 'next/link';
 import {
   Building2,
   Search,
@@ -42,7 +44,10 @@ export default function InventoryPage() {
             Real-time view of property inventory across all projects.
           </p>
         </div>
-        <Button className="bg-emerald-600 hover:bg-emerald-700">
+<Button 
+          className="bg-emerald-600 hover:bg-emerald-700"
+          onClick={() => toast.info('Demo Mode', { description: 'Add Project would open a form in production' })}
+        >
           <Plus className="w-4 h-4 mr-2" />
           Add Project
         </Button>
@@ -178,10 +183,17 @@ export default function InventoryPage() {
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
-                        <Button variant="ghost" size="sm">
-                          <Eye className="w-4 h-4" />
-                        </Button>
-                        <Button variant="ghost" size="sm">
+                        <Link href={`/properties/${project.id}`}>
+                          <Button variant="ghost" size="sm" title="View Property">
+                            <Eye className="w-4 h-4" />
+                          </Button>
+                        </Link>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          title="Edit Project"
+                          onClick={() => toast.info('Demo Mode', { description: 'Edit would open a form in production' })}
+                        >
                           <Edit className="w-4 h-4" />
                         </Button>
                       </div>

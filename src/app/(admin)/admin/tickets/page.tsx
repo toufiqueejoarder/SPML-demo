@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useDemoState } from '@/contexts/DemoStateContext';
+import { toast } from 'sonner';
 import {
   Ticket,
   Search,
@@ -59,7 +60,10 @@ export default function TicketsPage() {
             Manage customer inquiries and support requests.
           </p>
         </div>
-        <Button className="bg-emerald-600 hover:bg-emerald-700">
+<Button 
+          className="bg-emerald-600 hover:bg-emerald-700"
+          onClick={() => toast.info('Demo Mode', { description: 'Create Ticket would open a form in production' })}
+        >
           <Plus className="w-4 h-4 mr-2" />
           Create Ticket
         </Button>

@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { useDemoState } from '@/contexts/DemoStateContext';
+import { toast } from 'sonner';
 import {
   Mail,
   Plus,
@@ -103,7 +104,10 @@ export default function DripCampaignsPage() {
             Automated lead nurturing workflows and engagement sequences.
           </p>
         </div>
-        <Button className="bg-emerald-600 hover:bg-emerald-700">
+<Button 
+          className="bg-emerald-600 hover:bg-emerald-700"
+          onClick={() => toast.info('Demo Mode', { description: 'Create Campaign would open a workflow builder in production' })}
+        >
           <Plus className="w-4 h-4 mr-2" />
           Create Campaign
         </Button>
@@ -232,17 +236,29 @@ export default function DripCampaignsPage() {
                 </div>
 
                 <div className="flex gap-2">
-                  <Button variant="outline" size="sm">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => toast.info('Demo Mode', { description: `Edit ${campaign.name} would open editor in production` })}
+                  >
                     <Edit className="w-4 h-4 mr-1" />
                     Edit
                   </Button>
                   {campaign.status === 'active' ? (
-                    <Button variant="outline" size="sm">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => toast.success('Campaign Paused', { description: `${campaign.name} has been paused` })}
+                    >
                       <Pause className="w-4 h-4 mr-1" />
                       Pause
                     </Button>
                   ) : (
-                    <Button variant="outline" size="sm">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => toast.success('Campaign Resumed', { description: `${campaign.name} is now active` })}
+                    >
                       <Play className="w-4 h-4 mr-1" />
                       Resume
                     </Button>

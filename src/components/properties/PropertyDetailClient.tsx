@@ -12,6 +12,7 @@ import { Progress } from '@/components/ui/progress';
 import { PublicHeader } from '@/components/shared/PublicHeader';
 import { PublicFooter } from '@/components/shared/PublicFooter';
 import { useDemoState } from '@/contexts/DemoStateContext';
+import { toast } from 'sonner';
 import {
   MapPin,
   Phone,
@@ -304,8 +305,11 @@ export function PropertyDetailClient({ id }: PropertyDetailClientProps) {
                       <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
                       LIVE
                     </div>
-                    <div className="absolute bottom-4 right-4">
-                      <Button className="bg-white/90 text-gray-900 hover:bg-white">
+<div className="absolute bottom-4 right-4">
+                      <Button 
+                        className="bg-white/90 text-gray-900 hover:bg-white"
+                        onClick={() => toast.info('Demo Mode', { description: 'Drone footage player would open in production' })}
+                      >
                         <Play className="w-4 h-4 mr-2" />
                         View Drone Footage
                       </Button>
@@ -389,7 +393,11 @@ export function PropertyDetailClient({ id }: PropertyDetailClientProps) {
                         Request Quote
                       </Button>
                     </Link>
-                    <Button variant="outline" className="w-full">
+<Button 
+                      variant="outline" 
+                      className="w-full"
+                      onClick={() => toast.info('Demo Mode', { description: 'Brochure download would start in production' })}
+                    >
                       <Download className="w-4 h-4 mr-2" />
                       Download Brochure
                     </Button>
