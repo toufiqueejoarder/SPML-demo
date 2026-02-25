@@ -20,6 +20,7 @@ import {
   PieChart,
 } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 
 const navItems = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -29,13 +30,17 @@ const navItems = [
   { href: '/admin/leads', label: 'Lead Management', icon: Users },
   { href: '/admin/drip-campaigns', label: 'Drip Campaigns', icon: Mail },
   { href: '/admin/heatmap', label: 'Demand Heatmap', icon: Map },
-  { href: '/admin/users', label: 'User Management', icon: Settings },
+  { href: '/admin/users', label: 'Investor Management', icon: Users, showOverdueBadge: true },
   { href: '/admin/tickets', label: 'Support Tickets', icon: Ticket },
 ];
 
 export function AdminSidebar() {
   const pathname = usePathname();
-  const { setRole } = useDemoState();
+  const { state, setRole } = useDemoState();
+  
+  const investorsWithOverdue = state.investors.filter((inv) =>
+    inv.properties.some((p) => p.installments.some((i) => i.status === 'overdue'))
+  ).length;
 
   return (
     <aside className="w-64 bg-slate-900 text-white min-h-screen flex flex-col">
@@ -70,7 +75,7 @@ export function AdminSidebar() {
         </p>
         <ul className="space-y-1">
           {navItems.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive = pathname === item.href || (item.href === '/admin/users' && pathname?.startsWith('/admin/users/'));
             return (
               <li key={item.href}>
                 <Link
@@ -83,7 +88,12 @@ export function AdminSidebar() {
                   )}
                 >
                   <item.icon className="w-5 h-5" />
-                  {item.label}
+                  <span className="flex-1">{item.label}</span>
+                  {item.showOverdueBadge && investorsWithOverdue > 0 && (
+                    <Badge className="bg-red-500 text-white text-xs px-1.5 py-0.5">
+                      {investorsWithOverdue}
+                    </Badge>
+                  )}
                 </Link>
               </li>
             );

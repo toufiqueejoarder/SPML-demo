@@ -90,9 +90,11 @@ export default function AdminDashboard() {
                 Action required: Send reminders or follow up with investors.
               </p>
             </div>
-            <Button variant="outline" size="sm" className="border-amber-300 text-amber-700 hover:bg-amber-100">
-              View Details
-            </Button>
+<Link href="/admin/users">
+              <Button variant="outline" size="sm" className="border-amber-300 text-amber-700 hover:bg-amber-100">
+                View Details
+              </Button>
+            </Link>
           </CardContent>
         </Card>
       )}
