@@ -23,7 +23,7 @@ import {
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { toast } from 'sonner';
+import { AddInvestorForm } from '@/components/demo-forms';
 import {
   Table,
   TableBody,
@@ -64,13 +64,7 @@ export default function UsersPage() {
             Manage investor accounts and KYC verification.
           </p>
         </div>
-<Button 
-          className="bg-emerald-600 hover:bg-emerald-700"
-          onClick={() => toast.info('Demo Mode', { description: 'Add Investor would open a registration form in production' })}
-        >
-          <Plus className="w-4 h-4 mr-2" />
-          Add Investor
-        </Button>
+<AddInvestorForm />
       </div>
 
       {/* Summary Cards */}

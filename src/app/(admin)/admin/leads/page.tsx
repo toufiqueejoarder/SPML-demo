@@ -33,9 +33,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { AddLeadForm } from '@/components/demo-forms';
 
 export default function LeadsPage() {
-  const { state, computed, addLead } = useDemoState();
+  const { state, computed } = useDemoState();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterScore, setFilterScore] = useState<string>('all');
   const [filterStatus, setFilterStatus] = useState<string>('all');
@@ -64,14 +65,6 @@ export default function LeadsPage() {
     lost: { bg: 'bg-red-100 text-red-700', label: 'Lost' },
   };
 
-  const handleAddLead = () => {
-    addLead({
-      name: 'New Lead',
-      score: 'warm',
-      interestedProject: 'purbachal',
-    });
-  };
-
   return (
     <div className="p-6 lg:p-8 space-y-6">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -81,10 +74,7 @@ export default function LeadsPage() {
             Track and manage your sales leads with AI-powered scoring.
           </p>
         </div>
-        <Button onClick={handleAddLead} className="bg-emerald-600 hover:bg-emerald-700">
-          <Plus className="w-4 h-4 mr-2" />
-          Add Lead
-        </Button>
+<AddLeadForm />
       </div>
 
       {/* Summary Cards */}

@@ -52,6 +52,9 @@ type DemoAction =
   | { type: 'SIMULATE_PAYMENT'; payload: { investorId: string; installmentId: string } }
   | { type: 'MARK_OVERDUE'; payload: { investorId: string; installmentId: string } }
   | { type: 'ADD_LEAD'; payload: Partial<Lead> }
+  | { type: 'ADD_PROJECT'; payload: Partial<Project> & { name: string; totalUnits: number; pricePerKatha: number } }
+  | { type: 'ADD_INVESTOR'; payload: { name: string; email: string; phone: string; type: 'NRB' | 'Local' } }
+  | { type: 'ADD_TICKET'; payload: { subject: string; description: string; priority: 'low' | 'medium' | 'high' } }
   | { type: 'ADVANCE_MILESTONE'; payload: { projectId: string } }
   | { type: 'UPDATE_PROJECT'; payload: Project }
   | { type: 'UPDATE_INVESTOR'; payload: Investor }
@@ -221,6 +224,81 @@ function demoReducer(state: DemoState, action: DemoAction): DemoState {
       return { ...state, leads: [newLead, ...state.leads] };
     }
 
+    case 'ADD_PROJECT': {
+      const projectId = `project-${Date.now()}`;
+      const soldUnits = Math.floor(action.payload.totalUnits * 0.3);
+      const bookedUnits = Math.floor(action.payload.totalUnits * 0.1);
+      const availableUnits = action.payload.totalUnits - soldUnits - bookedUnits;
+      
+      const newProject: Project = {
+        id: projectId,
+        name: action.payload.name,
+        nameBn: action.payload.nameBn || action.payload.name,
+        location: action.payload.location || 'Dhaka, Bangladesh',
+        coordinates: action.payload.coordinates || [23.8103, 90.4125],
+        totalUnits: action.payload.totalUnits,
+        soldUnits,
+        bookedUnits,
+        availableUnits,
+        pricePerKatha: action.payload.pricePerKatha,
+        projectedPrice2028: Math.round(action.payload.pricePerKatha * 1.5),
+        projectedPrice2030: Math.round(action.payload.pricePerKatha * 2.2),
+        image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800',
+        images: [
+          'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800',
+          'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800',
+          'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800',
+        ],
+        description: action.payload.description || `Premium residential project with ${action.payload.totalUnits} units.`,
+        amenities: ['24/7 Security', 'Gated Community', 'Parks & Gardens', 'Wide Roads'],
+        nearbyPlaces: [
+          { name: 'Local School', type: 'education', distance: '1 km' },
+          { name: 'Hospital', type: 'health', distance: '2 km' },
+        ],
+        milestones: [
+          { id: 'm1', name: 'Land Acquisition', status: 'completed', completedDate: new Date().toISOString().split('T')[0], targetDate: new Date().toISOString().split('T')[0] },
+          { id: 'm2', name: 'Development Planning', status: 'in_progress', targetDate: '2026-06-30' },
+          { id: 'm3', name: 'Infrastructure', status: 'planned', targetDate: '2027-01-31' },
+          { id: 'm4', name: 'Handover', status: 'planned', targetDate: '2027-12-31' },
+        ],
+        brochureUrl: '/brochures/new-project.pdf',
+        surveillanceImage: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800',
+        droneImages: [],
+      };
+      return { ...state, projects: [...state.projects, newProject] };
+    }
+
+    case 'ADD_INVESTOR': {
+      const investorId = `inv-${Date.now()}`;
+      const newInvestor: Investor = {
+        id: investorId,
+        name: action.payload.name,
+        email: action.payload.email,
+        phone: action.payload.phone,
+        type: action.payload.type,
+        kycStatus: 'pending',
+        profileImage: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200',
+        totalInvestment: 0,
+        totalAppreciation: 0,
+        properties: [],
+      };
+      return { ...state, investors: [...state.investors, newInvestor] };
+    }
+
+    case 'ADD_TICKET': {
+      const ticketId = `ticket-${Date.now()}`;
+      const newTicket: SupportTicket = {
+        id: ticketId,
+        subject: action.payload.subject,
+        description: action.payload.description,
+        status: 'open',
+        priority: action.payload.priority,
+        createdAt: new Date().toISOString().split('T')[0],
+        userId: state.settings.currentInvestorId,
+      };
+      return { ...state, supportTickets: [newTicket, ...state.supportTickets] };
+    }
+
     case 'ADVANCE_MILESTONE': {
       const newProjects = state.projects.map(project => {
         if (project.id !== action.payload.projectId) return project;
@@ -363,6 +441,9 @@ interface DemoContextValue {
   simulatePayment: (investorId: string, installmentId: string) => void;
   markOverdue: (investorId: string, installmentId: string) => void;
   addLead: (lead: Partial<Lead>) => void;
+  addProject: (project: { name: string; totalUnits: number; pricePerKatha: number; location?: string; description?: string }) => void;
+  addInvestor: (investor: { name: string; email: string; phone: string; type: 'NRB' | 'Local' }) => void;
+  addTicket: (ticket: { subject: string; description: string; priority: 'low' | 'medium' | 'high' }) => void;
   advanceMilestone: (projectId: string) => void;
   resetAll: () => void;
 }
@@ -408,6 +489,9 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
     markOverdue: (investorId, installmentId) =>
       dispatch({ type: 'MARK_OVERDUE', payload: { investorId, installmentId } }),
     addLead: (lead) => dispatch({ type: 'ADD_LEAD', payload: lead }),
+    addProject: (project) => dispatch({ type: 'ADD_PROJECT', payload: project }),
+    addInvestor: (investor) => dispatch({ type: 'ADD_INVESTOR', payload: investor }),
+    addTicket: (ticket) => dispatch({ type: 'ADD_TICKET', payload: ticket }),
     advanceMilestone: (projectId) =>
       dispatch({ type: 'ADVANCE_MILESTONE', payload: { projectId } }),
     resetAll: () => dispatch({ type: 'RESET_ALL' }),

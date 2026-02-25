@@ -12,12 +12,10 @@ import { Progress } from '@/components/ui/progress';
 import { PublicHeader } from '@/components/shared/PublicHeader';
 import { PublicFooter } from '@/components/shared/PublicFooter';
 import { useDemoState } from '@/contexts/DemoStateContext';
-import { toast } from 'sonner';
+import { BrochureViewer, DroneFootageViewer } from '@/components/demo-forms';
 import {
   MapPin,
   Phone,
-  Download,
-  Play,
   CheckCircle2,
   Clock,
   Circle,
@@ -306,13 +304,7 @@ export function PropertyDetailClient({ id }: PropertyDetailClientProps) {
                       LIVE
                     </div>
 <div className="absolute bottom-4 right-4">
-                      <Button 
-                        className="bg-white/90 text-gray-900 hover:bg-white"
-                        onClick={() => toast.info('Demo Mode', { description: 'Drone footage player would open in production' })}
-                      >
-                        <Play className="w-4 h-4 mr-2" />
-                        View Drone Footage
-                      </Button>
+                      <DroneFootageViewer projectName={project.name} />
                     </div>
                   </div>
                   <p className="text-sm text-gray-500 mt-3">
@@ -393,14 +385,7 @@ export function PropertyDetailClient({ id }: PropertyDetailClientProps) {
                         Request Quote
                       </Button>
                     </Link>
-<Button 
-                      variant="outline" 
-                      className="w-full"
-                      onClick={() => toast.info('Demo Mode', { description: 'Brochure download would start in production' })}
-                    >
-                      <Download className="w-4 h-4 mr-2" />
-                      Download Brochure
-                    </Button>
+<BrochureViewer projectName={project.name} />
                   </div>
 
                   {/* Contact */}

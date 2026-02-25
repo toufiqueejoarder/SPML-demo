@@ -116,7 +116,7 @@ export default function AdminDashboard() {
             <p className="text-2xl font-bold text-gray-900">
               ৳{(currentMonth.collected / 10000000).toFixed(1)}Cr
             </p>
-            <p className="text-xs text-gray-400 mt-1">
+            <p className="text-xs text-gray-500 mt-1">
               Target: ৳{(currentMonth.target / 10000000).toFixed(1)}Cr
             </p>
           </CardContent>
@@ -136,7 +136,7 @@ export default function AdminDashboard() {
             <p className="text-2xl font-bold text-gray-900">
               {computed.totalAvailable} Available
             </p>
-            <p className="text-xs text-gray-400 mt-1">
+            <p className="text-xs text-gray-500 mt-1">
               {computed.totalSold} sold, {computed.totalBooked} booked
             </p>
           </CardContent>
@@ -156,7 +156,7 @@ export default function AdminDashboard() {
             <p className="text-2xl font-bold text-gray-900">
               {state.leads.length}
             </p>
-            <p className="text-xs text-gray-400 mt-1">
+            <p className="text-xs text-gray-500 mt-1">
               {computed.warmLeads} warm, {computed.coldLeads} cold
             </p>
           </CardContent>
@@ -176,7 +176,7 @@ export default function AdminDashboard() {
             <p className="text-2xl font-bold text-gray-900">
               {openTickets + inProgressTickets}
             </p>
-            <p className="text-xs text-gray-400 mt-1">
+            <p className="text-xs text-gray-500 mt-1">
               {openTickets} open, {inProgressTickets} in progress
             </p>
           </CardContent>
@@ -267,7 +267,7 @@ export default function AdminDashboard() {
             <div className="space-y-4">
               {pageViews.map((page, index) => (
                 <div key={page.page} className="flex items-center gap-4">
-                  <span className="text-sm text-gray-400 w-6">{index + 1}</span>
+                  <span className="text-sm text-gray-500 w-6">{index + 1}</span>
                   <div className="flex-1">
                     <div className="flex items-center justify-between mb-1">
                       <span className="font-medium text-gray-900">{page.page}</span>

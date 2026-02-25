@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Switch } from '@/components/ui/switch';
 import { useCurrentInvestor } from '@/contexts/DemoStateContext';
+import { DocumentUploader } from '@/components/demo-forms';
 import {
   User,
   Mail,
@@ -197,14 +198,7 @@ export default function ProfilePage() {
                       Recent Photo
                     </li>
                   </ul>
-<Button 
-                    variant="outline" 
-                    className="w-full"
-                    onClick={() => toast.info('Demo Mode', { description: 'Document upload would open file picker in production' })}
-                  >
-                    <Upload className="w-4 h-4 mr-2" />
-                    Upload Documents
-                  </Button>
+<DocumentUploader />
                 </div>
               )}
 

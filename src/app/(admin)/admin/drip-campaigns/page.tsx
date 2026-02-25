@@ -8,10 +8,8 @@ import { useDemoState } from '@/contexts/DemoStateContext';
 import { toast } from 'sonner';
 import {
   Mail,
-  Plus,
   Play,
   Pause,
-  Edit,
   Users,
   CheckCircle2,
   Clock,
@@ -19,6 +17,7 @@ import {
   MessageSquare,
   TrendingUp,
 } from 'lucide-react';
+import { AddCampaignForm } from '@/components/demo-forms';
 
 export default function DripCampaignsPage() {
   const { state, computed } = useDemoState();
@@ -104,13 +103,7 @@ export default function DripCampaignsPage() {
             Automated lead nurturing workflows and engagement sequences.
           </p>
         </div>
-<Button 
-          className="bg-emerald-600 hover:bg-emerald-700"
-          onClick={() => toast.info('Demo Mode', { description: 'Create Campaign would open a workflow builder in production' })}
-        >
-          <Plus className="w-4 h-4 mr-2" />
-          Create Campaign
-        </Button>
+<AddCampaignForm />
       </div>
 
       {/* Summary Cards */}
@@ -236,14 +229,16 @@ export default function DripCampaignsPage() {
                 </div>
 
                 <div className="flex gap-2">
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => toast.info('Demo Mode', { description: `Edit ${campaign.name} would open editor in production` })}
-                  >
-                    <Edit className="w-4 h-4 mr-1" />
-                    Edit
-                  </Button>
+                  <AddCampaignForm
+                    mode="edit"
+                    initialData={{
+                      name: campaign.name,
+                      targetAudience: campaign.name.toLowerCase().includes('hot') ? 'hot_leads' : 
+                                     campaign.name.toLowerCase().includes('warm') ? 'warm_leads' :
+                                     campaign.name.toLowerCase().includes('nrb') ? 'nrb_investors' : 'all_leads',
+                      totalSteps: campaign.stages,
+                    }}
+                  />
                   {campaign.status === 'active' ? (
                     <Button 
                       variant="outline" 

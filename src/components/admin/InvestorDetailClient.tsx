@@ -498,7 +498,7 @@ export function InvestorDetailClient({ id }: InvestorDetailClientProps) {
                       <TableRow key={doc.id}>
                         <TableCell>
                           <div className="flex items-center gap-2">
-                            <FileText className="w-4 h-4 text-gray-400" />
+                            <FileText className="w-4 h-4 text-gray-500" />
                             <span className="font-medium">{doc.name}</span>
                           </div>
                         </TableCell>

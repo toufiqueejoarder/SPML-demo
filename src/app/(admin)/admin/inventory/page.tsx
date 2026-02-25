@@ -6,13 +6,11 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Input } from '@/components/ui/input';
 import { useDemoState } from '@/contexts/DemoStateContext';
-import { toast } from 'sonner';
 import Link from 'next/link';
 import {
   Building2,
   Search,
   Edit,
-  Plus,
   Eye,
   TrendingUp,
   Package,
@@ -26,6 +24,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { AddProjectForm } from '@/components/demo-forms';
+import { EditProjectModal } from '@/components/demo-forms/EditProjectModal';
 
 export default function InventoryPage() {
   const { state, computed } = useDemoState();
@@ -44,13 +44,7 @@ export default function InventoryPage() {
             Real-time view of property inventory across all projects.
           </p>
         </div>
-<Button 
-          className="bg-emerald-600 hover:bg-emerald-700"
-          onClick={() => toast.info('Demo Mode', { description: 'Add Project would open a form in production' })}
-        >
-          <Plus className="w-4 h-4 mr-2" />
-          Add Project
-        </Button>
+<AddProjectForm />
       </div>
 
       {/* Summary Cards */}
@@ -188,14 +182,7 @@ export default function InventoryPage() {
                             <Eye className="w-4 h-4" />
                           </Button>
                         </Link>
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          title="Edit Project"
-                          onClick={() => toast.info('Demo Mode', { description: 'Edit would open a form in production' })}
-                        >
-                          <Edit className="w-4 h-4" />
-                        </Button>
+                        <EditProjectModal project={project} />
                       </div>
                     </TableCell>
                   </TableRow>
