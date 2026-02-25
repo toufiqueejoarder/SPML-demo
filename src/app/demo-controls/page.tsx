@@ -148,7 +148,7 @@ export default function DemoControlsPage() {
               Role: {state.settings.currentRole.toUpperCase()}
             </Badge>
             <Link href="/">
-              <Button variant="outline" size="sm" className="border-slate-600 text-slate-300 hover:bg-slate-700">
+              <Button variant="outline" size="sm" className="bg-transparent border-slate-600 text-slate-300 hover:bg-slate-700">
                 <Home className="w-4 h-4 mr-2" />
                 Back to Site
               </Button>

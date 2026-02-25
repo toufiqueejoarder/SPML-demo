@@ -16,8 +16,13 @@ import {
   CheckCircle2,
   Clock,
   XCircle,
+  Eye,
+  FileText,
+  UserCheck,
 } from 'lucide-react';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import {
   Table,
   TableBody,
@@ -36,6 +41,7 @@ import {
 export default function UsersPage() {
   const { state } = useDemoState();
   const [searchQuery, setSearchQuery] = useState('');
+  const router = useRouter();
 
   const filteredInvestors = state.investors.filter((inv) =>
     inv.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -161,8 +167,16 @@ export default function UsersPage() {
                 const kyc = kycConfig[investor.kycStatus];
                 const KycIcon = kyc.icon;
 
+                const hasOverdue = investor.properties.some((p) =>
+                  p.installments.some((i) => i.status === 'overdue')
+                );
+
                 return (
-                  <TableRow key={investor.id}>
+                  <TableRow 
+                    key={investor.id} 
+                    className="cursor-pointer hover:bg-gray-50"
+                    onClick={() => router.push(`/admin/users/${investor.id}`)}
+                  >
                     <TableCell>
                       <div className="flex items-center gap-3">
                         <Avatar>
@@ -185,24 +199,51 @@ export default function UsersPage() {
                       ৳{(investor.totalInvestment / 100000).toFixed(1)}L
                     </TableCell>
                     <TableCell>
-                      <Badge className={kyc.color}>
-                        <KycIcon className="w-3 h-3 mr-1" />
-                        {kyc.label}
-                      </Badge>
+                      <div className="flex items-center gap-2">
+                        <Badge className={kyc.color}>
+                          <KycIcon className="w-3 h-3 mr-1" />
+                          {kyc.label}
+                        </Badge>
+                        {hasOverdue && (
+                          <Badge className="bg-red-100 text-red-700">Overdue</Badge>
+                        )}
+                      </div>
                     </TableCell>
                     <TableCell className="text-right">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm">
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            onClick={(e) => e.stopPropagation()}
+                          >
                             <MoreHorizontal className="w-4 h-4" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem>View Profile</DropdownMenuItem>
-                          <DropdownMenuItem>Edit Details</DropdownMenuItem>
-                          <DropdownMenuItem>View Documents</DropdownMenuItem>
+                          <DropdownMenuItem asChild>
+                            <Link href={`/admin/users/${investor.id}`}>
+                              <Eye className="w-4 h-4 mr-2" />
+                              View Full Profile
+                            </Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem asChild>
+                            <Link href={`/admin/users/${investor.id}?tab=payments`}>
+                              <FileText className="w-4 h-4 mr-2" />
+                              View Payments
+                            </Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem asChild>
+                            <Link href={`/admin/users/${investor.id}?tab=documents`}>
+                              <FileText className="w-4 h-4 mr-2" />
+                              View Documents
+                            </Link>
+                          </DropdownMenuItem>
                           {investor.kycStatus === 'pending' && (
-                            <DropdownMenuItem>Verify KYC</DropdownMenuItem>
+                            <DropdownMenuItem>
+                              <UserCheck className="w-4 h-4 mr-2" />
+                              Verify KYC
+                            </DropdownMenuItem>
                           )}
                         </DropdownMenuContent>
                       </DropdownMenu>

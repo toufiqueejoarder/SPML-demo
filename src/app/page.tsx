@@ -83,7 +83,7 @@ export default function HomePage() {
                 </Button>
               </Link>
               <Link href="/contact">
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+                <Button size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white/10">
                   <Phone className="mr-2 w-5 h-5" />
                   Request Callback
                 </Button>
@@ -229,7 +229,7 @@ export default function HomePage() {
               </Button>
             </Link>
             <Link href="/investor/dashboard">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+              <Button size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white/10">
                 Access Investor Portal
               </Button>
             </Link>
